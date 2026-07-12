@@ -1,1 +1,1 @@
-# flight-delay-prediction-project-public
+# flight-delay-prediction-project
