@@ -14,8 +14,8 @@ spark:
 aws:
     region: "ap-southeast-1"
     s3:
-        data-lake-bucket: "rwc-ml-datasets"
-        data-warehouse-bucket: "rwc-data-warehouse"
+        data-lake-bucket: ""
+        data-warehouse-bucket: ""
 
 
 logging:
