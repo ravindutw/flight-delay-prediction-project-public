@@ -14,7 +14,7 @@ def write_transformed_data(spark: SparkSession, df, s3_key):
     df.write.mode("overwrite").parquet(s3_path)
 
 
-def get_lake_dataset(spark: SparkSession, s3_key: str):
+def get_flight_lake_dataset(spark: SparkSession, s3_key: str):
     s3_path = build_spark_s3_data_lake_path(s3_key)
     return spark.read.parquet(s3_path)
 
