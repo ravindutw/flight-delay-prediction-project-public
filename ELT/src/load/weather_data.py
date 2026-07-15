@@ -17,12 +17,12 @@ def write_to_datalake(raw_text: str, i):
 
 def write_data_to_lake_csv(df, s3_key):
     s3_path = build_pandas_s3_data_lake_path(s3_key)
-    df_combined.to_csv(s3_path)
+    df.to_csv(s3_path)
 
 
 def write_data_to_lake_parquet(df, s3_key):
     s3_path = build_pandas_s3_data_lake_path(s3_key)
-    df_combined.to_parquet(s3_path, engine="pyarrow")
+    df.to_parquet(s3_path, engine="pyarrow")
 
 
 def get_lake_dataset(s3_key):
