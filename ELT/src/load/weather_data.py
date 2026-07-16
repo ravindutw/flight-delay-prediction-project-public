@@ -2,7 +2,9 @@ import boto3
 import gzip
 from src.utils.config import load_config 
 import pandas as pd
-from src.utils.s3_paths import build_pandas_s3_data_lake_path, build_pandas_s3_data_warehouse_path
+from pyspark.sql import SparkSession
+from pyspark.sql.types import *
+from src.utils.s3_paths import build_pandas_s3_data_lake_path, build_pandas_s3_data_warehouse_path, build_spark_s3_data_lake_path
 
 
 def write_to_datalake(raw_text: str, i):
@@ -33,3 +35,8 @@ def get_lake_dataset(s3_key):
 def get_warehouse_dataset(s3_key):
     s3_path = build_pandas_s3_data_warehouse_path(s3_key)
     return pd.read_csv(s3_path)
+
+
+def get_weather_lake_dataset_spark(spark: SparkSession, s3_key: str):
+    s3_path = build_spark_s3_data_lake_path(s3_key)
+    return spark.read.parquet(s3_path)
