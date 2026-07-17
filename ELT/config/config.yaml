@@ -1,6 +1,6 @@
 spark:
     app_name: "FlightDataETL"
-    shuffle_partitions: 200
+    shuffle_partitions: 8
     driver_memory: "8g"
     local_ip: "127.0.0.1"
     log_level: "FATAL"
