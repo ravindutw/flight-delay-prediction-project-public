@@ -13,7 +13,8 @@ def get_spark_session() -> SparkSession:
     builder = (
         SparkSession.builder
         .appName(spark_cfg["app_name"])
-        .config("spark.sql.shuffle.partitions", spark_cfg.get("shuffle_partitions", 200))
+        .config("spark.sql.shuffle.partitions", spark_cfg.get("shuffle_partitions", 8))
+        .config("spark.sql.adaptive.enabled", "true")
         .config("spark.driver.extraJavaOptions", "-Dlog4j.configurationFile=file:config/log4j2.properties")
     )
 

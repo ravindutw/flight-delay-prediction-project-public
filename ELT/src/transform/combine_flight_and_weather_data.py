@@ -18,15 +18,15 @@ def join_origin_weather_data(fd_df: DataFrame, wd_df: DataFrame, time_window) ->
     joined_df = fd_df.join(wd_df_prepd, join_condition, 'left')
 
     joined_df = joined_df.withColumn(
-        "time_diff_seconds",
+        "time_diff_seconds_orig",
         F.abs(F.unix_timestamp(fd_df.crs_departure_timestamp) - F.unix_timestamp(wd_df_prepd.timestamp))
     )
 
-    window_spec = Window.partitionBy("flight_id").orderBy("time_diff_seconds")
+    window_spec = Window.partitionBy("flight_id").orderBy("time_diff_seconds_orig")
 
     final_df = joined_df.withColumn("rn", F.row_number().over(window_spec)) \
         .filter(F.col("rn") == 1) \
-        .drop("rn", "time_diff_seconds", "flights_id", "timestamp", 'station')
+        .drop("rn", "time_diff_seconds_orig", "timestamp", 'station')
 
     return final_df
 
@@ -46,15 +46,15 @@ def join_destination_weather_data(fd_df: DataFrame, wd_df: DataFrame, time_windo
     joined_df = fd_df.join(wd_df_prepd, join_condition, 'left')
 
     joined_df = joined_df.withColumn(
-        "time_diff_seconds",
+        "time_diff_seconds_dest",
         F.abs(F.unix_timestamp(fd_df.crs_arrival_timestamp) - F.unix_timestamp(wd_df_prepd.timestamp))
     )
 
-    window_spec = Window.partitionBy("flight_id").orderBy("time_diff_seconds")
+    window_spec = Window.partitionBy("flight_id").orderBy("time_diff_seconds_dest")
 
     final_df = joined_df.withColumn("rn", F.row_number().over(window_spec)) \
         .filter(F.col("rn") == 1) \
-        .drop("rn", "time_diff_seconds", "flights_id", "timestamp", 'station')
+        .drop("rn", "time_diff_seconds_dest", "flight_id", "timestamp", 'station')
 
     return final_df
 
